@@ -28,6 +28,7 @@ export const verifyOtp = createAsyncThunk(
     try {
       const response = await authService.verifyOtp(phone, otp);
       localStorage.setItem('mfg_token', response.accessToken);
+      localStorage.setItem('mfg_refresh', response.refreshToken);
       return response;
     } catch (err: unknown) {
       return rejectWithValue((err as Error).message);
@@ -52,6 +53,7 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.isAuthenticated = false;
       localStorage.removeItem('mfg_token');
+      localStorage.removeItem('mfg_refresh');
     },
     clearError(state) {
       state.error = null;
